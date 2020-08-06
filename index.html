@@ -44,17 +44,35 @@
     </style>
   </head>
   <script src="/socket.io/socket.io.js"></script>
-  <script>
-    var socket = io();
-    document.querySelector("form").submit(function (e) {
-      e.preventDefault();
-      socket.emit("chat message", $());
-    });
-  </script>
+
   <body>
+    <div id="messages"></div>
     <ul id="messages"></ul>
     <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
+      <input id="m" autocomplete="off" splaceholder="입력하시오" /><button
+        id="send"
+      >
+        Send
+      </button>
     </form>
   </body>
+  <script>
+    const message = document.querySelector("#m");
+    const sendBtn = document.getElementById("send");
+    const messages = document.getElementById("messages");
+
+    function ws() {
+      const socket = io();
+
+      sendBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        console.log(message.value);
+        socket.emit("chat", {
+          message: message.value,
+        });
+      });
+    }
+
+    ws();
+  </script>
 </html>
