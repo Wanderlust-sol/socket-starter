@@ -61,18 +61,20 @@
     const sendBtn = document.getElementById("send");
     const messages = document.getElementById("messages");
 
-    function ws() {
-      const socket = io();
+    const socket = io();
 
-      sendBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        console.log(message.value);
-        socket.emit("chat", {
-          message: message.value,
-        });
+    sendBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      console.log(message.value);
+      socket.emit("chat", {
+        message: message.value,
       });
-    }
+      message.value = "";
+    });
 
-    ws();
+    socket.on("chat", (msg) => {
+      const li = document.createElement("li");
+      messages.appendChild(li).innerText = msg;
+    });
   </script>
 </html>
